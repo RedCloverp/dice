@@ -1,22 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Random Cubes</title>
+    <meta name="description" content="Random Cubes" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Random Cubes</title>
-  <meta name="description" content="Random Cubes" />
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div class="board">
+      <div class="player">Player</div>
+      <div class="btnAndCube">
+        <div class="result">
+          <h1>Заглушка</h1>
+          <p>Здесь будет результат</p>
+        </div>
+        <div class="cube">
+          <div class="firstCube">Cube 1</div>
+          <div class="secondCube">Cube 2</div>
+        </div>
+        <div class="btn">
+          <button onclick="start()">Рандом</button>
+        </div>
+      </div>
+      <div class="computer">Computer</div>
+    </div>
 
-<body>
-  <div class="btn">
-    <button onclick="start()">Рандом</button>
-  </div>
-  <div class="cube">
-    <div class="firstCube"></div>
-    <div class="secondCube"></div>
-  </div>
-  <script src="script.js"></script>
-</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>
