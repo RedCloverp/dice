@@ -16,29 +16,33 @@ let viewFirstCube = document.querySelector('.firstCube'),
     countMove = document.querySelector('#countMove'),
     heartsPlayer = document.querySelector('.heartsPlayer'),
     heartsBot = document.querySelector('.heartsBot'),
-    btn = document.querySelector('button')
+    btn = document.querySelector('button'),
+    winner = document.querySelector('#winner')
   // инициализация переменных для привязки к резульату рандома
 let firstCube, secondCube, playerCost, botCost;
   
 
   // запуск
 function start() {
-  btn.setAttribute('disabled', 'disabled');
   movePlayer();
-  move.textContent = "Ход опоннента";
   countMove.textContent = `Ваш счет: ${playerCost} - Бот: `;
+
   (setTimeout(() => {
     moveBot();
     countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
-    winner();
-     btn.removeAttribute('disabled');
-     move.textContent = "Ваш ход";
-  }, 3000))
+    whoWinner(playerCost, botCost);
+      btn.removeAttribute('disabled');
+      
+      window.showWinner.showModal();
+      (setTimeout(() => {
+        window.showWinner.close();
+      }, 1700))
+  }, 1000))
 
-  
 }
 
 function movePlayer() {
+  btn.setAttribute('disabled', 'disabled');
   if (viewFirstCube.children.length > 0 && viewSecondCube.children.length > 0) {
     viewFirstCube.children[0].remove();
     viewSecondCube.children[0].remove();
@@ -47,6 +51,7 @@ function movePlayer() {
   viewFirstCube.innerHTML = (hubImg[firstCube]);
   viewSecondCube.innerHTML = (hubImg[secondCube]);
   playerCost = firstCube + secondCube;
+  move.textContent = "Ход опоннента";
   return playerCost;
 }
 
@@ -62,8 +67,16 @@ function moveBot() {
   return botCost;
 }
 
-function winner(player, bot) {
-  
+function whoWinner(player, bot) {
+  if (player == bot) {
+    winner.textContent = "Ничья";
+  } else {
+    player > bot ? 
+    winner.textContent = "Вы победили!" : 
+    winner.textContent = "Вы проиграли!";
+    editHeart();
+  }
+  move.textContent = "Ваш ход";
 }
   // Генерация рандома
 function random(min, max) {
