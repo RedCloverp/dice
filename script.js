@@ -17,7 +17,12 @@ let viewFirstCube = document.querySelector('.firstCube'),
     heartsPlayer = document.querySelector('.heartsPlayer'),
     heartsBot = document.querySelector('.heartsBot'),
     btn = document.querySelector('button'),
-    winner = document.querySelector('#winner')
+    winner = document.querySelector('#winner'),
+    playAgain = document.querySelector('#yes'),
+    noPlay = document.querySelector('#no'),
+    countPlayer = 0,
+    countBot = 0,
+    countRound = 1
   // инициализация переменных для привязки к резульату рандома
 let firstCube, secondCube, playerCost, botCost;
   
@@ -31,13 +36,13 @@ function start() {
     moveBot();
     countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
     whoWinner(playerCost, botCost);
-      btn.removeAttribute('disabled');
-      
-      window.showWinner.showModal();
-      (setTimeout(() => {
-        window.showWinner.close();
-      }, 1700))
-  }, 1000))
+    btn.removeAttribute('disabled');
+  
+    window.showWinner.showModal();
+    (setTimeout(() => {
+      window.showWinner.close();
+    }, 1100));
+  }, 1800))
 
 }
 
@@ -46,6 +51,10 @@ function movePlayer() {
   if (viewFirstCube.children.length > 0 && viewSecondCube.children.length > 0) {
     viewFirstCube.children[0].remove();
     viewSecondCube.children[0].remove();
+  };
+  if (viewFirstCubeBot.children.length > 0 && viewSecondCubeBot.children.length > 0) {
+    viewFirstCubeBot.children[0].remove();
+    viewSecondCubeBot.children[0].remove();
   };
   random(1, 6);
   viewFirstCube.innerHTML = (hubImg[firstCube]);
@@ -69,14 +78,32 @@ function moveBot() {
 
 function whoWinner(player, bot) {
   if (player == bot) {
-    winner.textContent = "Ничья";
+    winner.textContent = `Раунд ${countRound}: Ничья`;
+    countRound++;
   } else {
     player > bot ? 
-    winner.textContent = "Вы победили!" : 
-    winner.textContent = "Вы проиграли!";
-    editHeart();
+    winner.textContent = `Раунд ${countRound}: Вы победили!` : 
+    winner.textContent = `Раунд ${countRound}: Вы проиграли!`;
+    countRound++;
+    player > bot ? editHeart(heartsBot) : editHeart(heartsPlayer);
   }
   move.textContent = "Ваш ход";
+}
+
+function editHeart(minusHeart) {
+  if (minusHeart.classList[0] == 'heartsBot') {
+    minusHeart.children[countBot].setAttribute('src', '/src/brokenHeart.svg')
+    countBot++;
+    if (countBot == 3) {endGame()}
+  } else {
+    minusHeart.children[countPlayer].setAttribute('src', '/src/brokenHeart.svg')
+    countPlayer++;
+    if(countPlayer == 3) {endGame()}
+  }
+}
+
+function endGame() {
+  window.showEndGame.showModal();
 }
   // Генерация рандома
 function random(min, max) {
@@ -86,3 +113,18 @@ function random(min, max) {
 }
 
 
+playAgain.addEventListener('click', () => {
+  countBot = 0;
+  countPlayer = 0;
+  countRound = 1;
+  for(let i = 0; i < 3; i++ ) {
+    heartsBot.children[i].setAttribute('src', '/src/heart.svg')
+    heartsPlayer.children[i].setAttribute('src', '/src/heart.svg')
+  }
+  countMove.textContent = "Результат хода";
+  viewFirstCube.children[0].remove();
+  viewSecondCube.children[0].remove();
+  viewFirstCubeBot.children[0].remove();
+  viewSecondCubeBot.children[0].remove();
+  window.showEndGame.close();
+})

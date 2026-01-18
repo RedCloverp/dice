@@ -143,9 +143,9 @@ img {
 
 #showWinner {
   width: 40vw;
-  height: 20vh;
+  height: 30vh;
   max-width: 40vh;
-  max-height: 20vh;
+  max-height: 30vh;
   align-content: center;
   text-align: center;
   border: none;

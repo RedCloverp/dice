@@ -20,7 +20,7 @@
       <div class="btnAndCube">
         <div class="result">
           <h1 id="move">Ваш ход</h1>
-          <p id="countMove">Здесь будет результат</p>
+          <p id="countMove">Результат хода</p>
         </div>
         <div class="cubes">
           <div class="firstCube"></div>
@@ -45,6 +45,11 @@
     </div>
     <dialog aria-label="Победитель" aria-labelledby="winner" id="showWinner">
       <p id="winner">Я работаю!</p>
+    </dialog>
+    <dialog aria-label="Конец Игры" id="showEndGame">
+      <h2>Сыграем еще?</h2>
+      <button type="button" id="yes">Да</button>
+      <button type="button" id="no">Нет</button>
     </dialog>
     <script src="script.js"></script>
   </body>
