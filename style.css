@@ -3,52 +3,62 @@
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
   max-width: 100vw;
   max-height: 100vh;
   display: flex;
   justify-content: center;
-  margin-top: 10%;
   overflow: hidden;
   background-image: linear-gradient(to right, rgb(78, 139, 231), rgb(145, 231, 46));
 }
 .board {
   background-color: beige;
-  width: 75vw;
-  height: 60vh;
+  width: 85vw;
+  height: 85vh;
   box-sizing: border-box;
-  position: inherit;
-  display: grid;
+  display: none;
   grid-template-columns: 1fr 3fr 1fr;
   justify-items: center;
   align-items: center;
   gap: 10px;
   border-radius: 50px 0px;
   box-shadow: 15px 25px 1px black ;
+  margin-top: 2%;
+  padding: 0;;
 }
 
 h1, h2 {
   font-size: 2rem;
+  align-content: center;
+  text-align: center;
 }
 .btnAndCube {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  
 }
 
+
 .result {
+  margin-top: 5%;
+  box-shadow: 5px 5px 27px;
   width: 100%;
-  height: 7.5vh;
+  height: 15vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 35px;
 }
 
 #countMove {
   font-size: 1.5rem;
+
 }
 
 .btn {
@@ -62,25 +72,32 @@ h1, h2 {
   width: 30vw;
   height: 8vh;
   border-radius: 13px;
-   box-shadow: 5px 5px 15px;
+  box-shadow: 5px 5px 25px;
+  display: none;
+  margin-bottom: 5%;
 }
 
 .player {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left: 15%;
+  box-shadow: 5px 5px 10px;
+  border-radius: 10px;
 } 
 .computer {
-  width: 100px;
-  height: 100px;
-  
+  width: 100%;
+  height: 50%;
+  margin-right: 15%;
+  box-shadow: 5px 5px 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 } 
 img {
     width: 100px;
@@ -141,22 +158,63 @@ img {
   padding-bottom: 3px;
 }
 
-#showWinner {
-  width: 40vw;
-  height: 30vh;
-  max-width: 40vh;
-  max-height: 30vh;
+#showChoice {
+  min-width: 35vw;
+  min-height: 65vh;
+  max-height: 100vh;
+  max-width: 100vw;
+  position: fixed; /* Фиксирует относительно viewport */
+  align-items: center;
+  left: 0;
+  top: 20%;
+  background-image: linear-gradient(to right, rgb(78, 139, 231), rgb(145, 231, 46));
+  z-index: 1000; /* Чтобы было поверх всего */
   align-content: center;
   text-align: center;
   border: none;
   border-radius: 25px 0px;
   box-shadow: 5px -5px 120px;
-  background-image: linear-gradient(to right, rgb(78, 139, 231), rgb(145, 231, 46));
+  
   
 }
 
-#showWinner > p {
+.modalContent {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 20px;
+  justify-content: center;
+}
+
+.modalContent * {
+  max-width: 200px;
+}
+
+#showChoice > p {
   color: white;
   font-size: 2.5em;
   font-style: italic;
+}
+
+@media screen and (max-device-width: 480px) {
+  .board {
+    position: relative;
+    top: 15%;
+    height: 70vh;
+  }
+  #showChoice {
+    min-width: 55vw;
+    min-height: 30vh;
+  }
+  .result {
+    margin-top: 25%;
+  }
+  .btn button {
+    margin-bottom: 25%;
+  }
+  .player {
+    height: 17%
+  }
+  .computer {
+    height: 17%
+  }
 }

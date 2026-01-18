@@ -6,12 +6,14 @@ const hubImg = {
     4: `<img src="./src/fourth.png" />`,
     5: `<img src="./src/fifth.png" />`,
     6: `<img src="./src/sixth.png" />`,
-  };
+};
   // привязка переменных к классу
-let viewFirstCube = document.querySelector('.firstCube'),
+let board = document.querySelector('.board'),
+    viewFirstCube = document.querySelector('.firstCube'),
     viewSecondCube = document.querySelector('.secondCube'),
     viewFirstCubeBot = document.querySelector('.firstCubeBot'),
     viewSecondCubeBot = document.querySelector('.secondCubeBot'),
+    roundWinner = document.querySelector('#roundWinner'),
     move = document.querySelector('#move'),
     countMove = document.querySelector('#countMove'),
     heartsPlayer = document.querySelector('.heartsPlayer'),
@@ -20,6 +22,10 @@ let viewFirstCube = document.querySelector('.firstCube'),
     winner = document.querySelector('#winner'),
     playAgain = document.querySelector('#yes'),
     noPlay = document.querySelector('#no'),
+    startBot = document.querySelector('#startBot'),
+    startPlayer = document.querySelector('#startPlayer'),
+    choiceBot = document.querySelector('#choiceBot'),
+    choicePlayer = document.querySelector('#choicePlayer'),
     countPlayer = 0,
     countBot = 0,
     countRound = 1
@@ -27,24 +33,31 @@ let viewFirstCube = document.querySelector('.firstCube'),
 let firstCube, secondCube, playerCost, botCost;
   
 
-  // запуск
-function start() {
+choiceBot.addEventListener('click', () => {
+  startBot.style.display = 'block';
+  board.style.display = 'grid';
+  window.showChoice.close();
+});
+
+choicePlayer.addEventListener('click', () => {
+  startPlayer.style.display = 'block';
+  board.style.display = 'grid';
+  window.showChoice.close();
+
+})
+
+  // запуск  с ботом
+startBot.addEventListener('click', () => {
   movePlayer();
   countMove.textContent = `Ваш счет: ${playerCost} - Бот: `;
 
-  (setTimeout(() => {
-    moveBot();
-    countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
-    whoWinner(playerCost, botCost);
-    btn.removeAttribute('disabled');
-  
-    window.showWinner.showModal();
-    (setTimeout(() => {
-      window.showWinner.close();
-    }, 1100));
-  }, 1800))
-
-}
+  (
+    setTimeout(() => {
+      moveBot();  
+      countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
+    },1500)
+  )
+})
 
 function movePlayer() {
   btn.setAttribute('disabled', 'disabled');
@@ -71,23 +84,26 @@ function moveBot() {
   };
   random(1, 6);
   botCost = firstCube + secondCube;
+  btn.removeAttribute('disabled');
   viewFirstCubeBot.innerHTML = (hubImg[firstCube]);
   viewSecondCubeBot.innerHTML = (hubImg[secondCube]);
+  move.textContent = "Ваш ход";
+  whoWinner(playerCost, botCost);
   return botCost;
 }
 
 function whoWinner(player, bot) {
   if (player == bot) {
-    winner.textContent = `Раунд ${countRound}: Ничья`;
+    roundWinner.textContent = `Раунд ${countRound}: Ничья`
     countRound++;
   } else {
     player > bot ? 
-    winner.textContent = `Раунд ${countRound}: Вы победили!` : 
-    winner.textContent = `Раунд ${countRound}: Вы проиграли!`;
+    roundWinner.textContent = `Раунд ${countRound}: Вы победили!` : 
+    roundWinner.textContent = `Раунд ${countRound}: Вы проиграли!`;
     countRound++;
     player > bot ? editHeart(heartsBot) : editHeart(heartsPlayer);
   }
-  move.textContent = "Ваш ход";
+  
 }
 
 function editHeart(minusHeart) {
@@ -118,8 +134,8 @@ playAgain.addEventListener('click', () => {
   countPlayer = 0;
   countRound = 1;
   for(let i = 0; i < 3; i++ ) {
-    heartsBot.children[i].setAttribute('src', '/src/heart.svg')
-    heartsPlayer.children[i].setAttribute('src', '/src/heart.svg')
+    heartsBot.children[i].setAttribute('src', './src/heart.svg')
+    heartsPlayer.children[i].setAttribute('src', './src/heart.svg')
   }
   countMove.textContent = "Результат хода";
   viewFirstCube.children[0].remove();

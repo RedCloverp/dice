@@ -10,7 +10,7 @@
   <body>
     <div class="board">
       <div class="player">
-        <h2>Игрок</h2>
+        <h2>Игрок 1</h2>
         <div class="heartsPlayer">
           <img class="hearts" src="./src/heart.svg" />
           <img class="hearts" src="./src/heart.svg" />
@@ -20,6 +20,7 @@
       <div class="btnAndCube">
         <div class="result">
           <h1 id="move">Ваш ход</h1>
+          <p id="roundWinner"></p>
           <p id="countMove">Результат хода</p>
         </div>
         <div class="cubes">
@@ -31,11 +32,12 @@
           <div class="secondCubeBot"></div>
         </div>
         <div class="btn">
-          <button onclick="start()">Бросок</button>
+          <button id="startBot">Бросок</button>
+          <button id="startPlayer">Бросок</button>
         </div>
       </div>
       <div class="computer">
-        <h2>Бот</h2>
+        <h2>Игрок 2</h2>
         <div class="heartsBot">
           <img class="hearts" src="./src/heart.svg" />
           <img class="hearts" src="./src/heart.svg" />
@@ -43,8 +45,17 @@
         </div>
       </div>
     </div>
-    <dialog aria-label="Победитель" aria-labelledby="winner" id="showWinner">
-      <p id="winner">Я работаю!</p>
+    <dialog
+      aria-label="Победитель"
+      aria-labelledby="winner"
+      id="showChoice"
+      open
+    >
+      <div class="modalContent">
+        <p id="winner">С кем будешь Играть?</p>
+        <button type="button" id="choiceBot">С ботом</button>
+        <button type="button" id="choicePlayer">С человеком</button>
+      </div>
     </dialog>
     <dialog aria-label="Конец Игры" id="showEndGame">
       <h2>Сыграем еще?</h2>
