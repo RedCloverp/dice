@@ -47,6 +47,10 @@ h1, h2 {
   align-items: center;
 }
 
+#countMove {
+  font-size: 1.5rem;
+}
+
 .btn {
   display: flex;
   justify-content: center;
@@ -98,8 +102,27 @@ img {
   border-radius: 20px;
 }
 
+.firstCubeBot {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
 
 .secondCube {
+  width: 100px;
+  height: 100px;
+  margin-left: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.secondCubeBot {
   width: 100px;
   height: 100px;
   margin-left: 15px;
