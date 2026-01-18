@@ -9,21 +9,35 @@
 
   <body>
     <div class="board">
-      <div class="player">Player</div>
+      <div class="player">
+        <h2>Игрок</h2>
+        <div class="heartsPlayer">
+          <img class="hearts" src="/src/heart.svg" />
+          <img class="hearts" src="/src/heart.svg" />
+          <img class="hearts" src="/src/heart.svg" />
+        </div>
+      </div>
       <div class="btnAndCube">
         <div class="result">
-          <h1>Заглушка</h1>
-          <p>Здесь будет результат</p>
+          <h1 id="move">Ваш ход</h1>
+          <p id="countMove">Здесь будет результат</p>
         </div>
-        <div class="cube">
+        <div class="cubes">
           <div class="firstCube">Cube 1</div>
           <div class="secondCube">Cube 2</div>
         </div>
         <div class="btn">
-          <button onclick="start()">Рандом</button>
+          <button onclick="start()">Бросок</button>
         </div>
       </div>
-      <div class="computer">Computer</div>
+      <div class="computer">
+        <h2>Бот</h2>
+        <div class="heartsBot">
+          <img class="hearts" src="/src/heart.svg" />
+          <img class="hearts" src="/src/heart.svg" />
+          <img class="hearts" src="/src/heart.svg" />
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>

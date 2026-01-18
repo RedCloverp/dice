@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   max-width: 100vw;
   max-height: 100vh;
@@ -8,9 +12,9 @@ body {
   background-image: linear-gradient(to right, rgb(78, 139, 231), rgb(145, 231, 46));
 }
 .board {
-  background-color:linear-gradient(black, white);
-  width: 65vw;
-  height: 50vh;
+  background-color: beige;
+  width: 75vw;
+  height: 60vh;
   box-sizing: border-box;
   position: inherit;
   display: grid;
@@ -18,10 +22,13 @@ body {
   justify-items: center;
   align-items: center;
   gap: 10px;
-  border: 1px solid gray;
-  box-shadow: 15px 25px 100px black ;
+  border-radius: 50px 0px;
+  box-shadow: 15px 25px 1px black ;
 }
 
+h1, h2 {
+  font-size: 2rem;
+}
 .btnAndCube {
   width: 100%;
   height: 100%;
@@ -41,61 +48,72 @@ body {
 }
 
 .btn {
-  width: 100px;
-  height: 100px;
-  background-color: blue;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .btn button {
-  background-color: aqua;
-  width: 100%;
-  height: 100%;
+  background-color: rgb(1, 247, 255);
+  width: 30vw;
+  height: 8vh;
+  border-radius: 13px;
+   box-shadow: 5px 5px 15px;
 }
 
 .player {
   width: 100px;
   height: 100px;
-  background-color: blue;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 } 
 .computer {
   width: 100px;
   height: 100px;
-  background-color: blue;
+  
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 } 
 img {
     width: 100px;
     margin: 5px;
 }
-.cube {
+.cubes {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: center; 
 }
 
 .firstCube {
   width: 100px;
   height: 100px;
-  background-color: blue;
   margin-right: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
 }
+
+
 .secondCube {
   width: 100px;
   height: 100px;
-  background-color: blue;
   margin-left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
+}
+
+.hearts {
+  width: 20px
+}
+
+.brokenHearts {
+  width: 13px;
+  padding-bottom: 3px;
 }
