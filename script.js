@@ -92,11 +92,11 @@ function whoWinner(player, bot) {
 
 function editHeart(minusHeart) {
   if (minusHeart.classList[0] == 'heartsBot') {
-    minusHeart.children[countBot].setAttribute('src', '/src/brokenHeart.svg')
+    minusHeart.children[countBot].setAttribute('src', './src/brokenHeart.svg')
     countBot++;
     if (countBot == 3) {endGame()}
   } else {
-    minusHeart.children[countPlayer].setAttribute('src', '/src/brokenHeart.svg')
+    minusHeart.children[countPlayer].setAttribute('src', './src/brokenHeart.svg')
     countPlayer++;
     if(countPlayer == 3) {endGame()}
   }
