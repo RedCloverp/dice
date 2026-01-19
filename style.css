@@ -62,8 +62,12 @@ h1, h2 {
 }
 
 #countMove {
-  font-size: 1.5rem;
+  font-size: 2rem;
 
+}
+
+#roundWinner {
+  font-size: 2rem;
 }
 
 .btn {
@@ -233,14 +237,17 @@ img {
   }
   .result {
     margin-top: 25%;
+    width: 40vw;
   }
   .btn button {
     margin-bottom: 25%;
   }
   .player {
-    height: 17%
+    width: 21vw;
+    height: 17%;
   }
   .computer {
-    height: 17%
+    width: 21vw;
+    height: 17%;
   }
 }

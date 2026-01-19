@@ -30,8 +30,8 @@ let board = document.querySelector('.board'),
     playerTwo = document.querySelector('#player2'),
     profilePlayer1 = document.querySelector('.player'),
     profilePlayer2 = document.querySelector('.computer'),
-    countPlayer = 0,
-    countBot = 0,
+    countPlayer = 2,
+    countBot = 2,
     countRound = 1,
     whoMove = 1;
   // инициализация переменных для привязки к резульату рандома
@@ -54,8 +54,9 @@ function movePlayer() {
   viewFirstCube.innerHTML = (hubImg[firstCube]);
   viewSecondCube.innerHTML = (hubImg[secondCube]);
   playerCost = firstCube + secondCube;
-  move.textContent = "Ход Игрока 1";
-  console.log("Ход игрока с ботом");
+  move.textContent = "Ход Бота";
+  profilePlayer2.style.boxShadow = "5px 5px 50px red";
+    profilePlayer1.style.boxShadow = "5px 5px 50px black";
   return playerCost;
 }
 
@@ -71,7 +72,9 @@ function moveBot() {
   viewSecondCubeBot.innerHTML = (hubImg[secondCube]);
   move.textContent = "Ваш ход";
   console.log("Ход бота с ботом");
-  whoWinner(playerCost, botCost);
+  whoWinner(playerCost, botCost, true);
+  profilePlayer1.style.boxShadow = "5px 5px 50px red";
+  profilePlayer2.style.boxShadow = "5px 5px 50px black";
   return botCost;
 }
 // Функции ходов с человеком
@@ -117,13 +120,14 @@ function movePlayerTwo() {
     profilePlayer1.style.boxShadow = "5px 5px 50px red";
     profilePlayer2.style.boxShadow = "5px 5px 50px black";
     startPlayer.removeAttribute('disabled');
-    whoWinner(playerCost, botCost);
+    whoWinner(playerCost, botCost, false);
   },1000))
   return botCost;
 }
 
-function whoWinner(player, bot) {
-  if (player == bot) {
+function whoWinner(player, bot, playing) {
+  if (playing) {
+    if (player == bot) {
     roundWinner.textContent = `Раунд ${countRound}: Ничья`
     countRound++;
   } else {
@@ -133,18 +137,31 @@ function whoWinner(player, bot) {
     countRound++;
     player > bot ? editHeart(heartsBot) : editHeart(heartsPlayer);
   }
+  } else {
+    if (player == bot) {
+    roundWinner.textContent = `Раунд ${countRound}: Ничья`
+    countRound++;
+  } else {
+    player > bot ? 
+    roundWinner.textContent = `Раунд ${countRound}: Победил Игрок 1!` : 
+    roundWinner.textContent = `Раунд ${countRound}: Победил Игрок 2!`;
+    countRound++;
+    player > bot ? editHeart(heartsBot) : editHeart(heartsPlayer);
+  }
+  }
+  
   
 }
 
 function editHeart(minusHeart) {
   if (minusHeart.classList[0] == 'heartsBot') {
     minusHeart.children[countBot].setAttribute('src', './src/brokenHeart.svg')
-    countBot++;
-    if (countBot == 3) {endGame("Игрок 2")} // временно значение жизней изменено на 1
+    countBot--;
+    if (countBot == -1) {endGame("Игрок 2")} // временно значение жизней изменено на 1
   } else {
     minusHeart.children[countPlayer].setAttribute('src', './src/brokenHeart.svg')
-    countPlayer++;
-    if(countPlayer == 3) {endGame("Игрок 1")} // временно значение жизней изменено на 1
+    countPlayer--;
+    if(countPlayer == -1) {endGame("Игрок 1")} // временно значение жизней изменено на 1
   }
 }
 
@@ -161,8 +178,8 @@ function random(min, max) {
 }
 
 function reset() {
-  countBot = 0;
-  countPlayer = 0;
+  countBot = 2;
+  countPlayer = 2;
   countRound = 1;
   for(let i = 0; i < 3; i++ ) {
     heartsBot.children[i].setAttribute('src', './src/heart.svg')
