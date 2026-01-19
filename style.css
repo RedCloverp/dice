@@ -45,15 +45,20 @@ h1, h2 {
 
 
 .result {
+  box-sizing: content-box;
   margin-top: 5%;
   box-shadow: 5px 5px 27px;
-  width: 100%;
+  width: 80%;
   height: 15vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 35px;
+}
+
+.result * {
+  margin: 5px;
 }
 
 #countMove {
@@ -85,7 +90,7 @@ h1, h2 {
   justify-content: center;
   align-items: center;
   margin-left: 15%;
-  box-shadow: 5px 5px 10px;
+  box-shadow: 5px 5px 50px black;
   border-radius: 10px;
 } 
 .computer {
@@ -106,9 +111,14 @@ img {
 .cubes {
   display: flex;
   flex-direction: row;
-  justify-content: center; 
+  justify-content: center;
+  padding: 5%;
 }
-
+.line {
+  width: 30vw;
+  height: 3px;
+  background-color: black;
+}
 .firstCube {
   width: 100px;
   height: 100px;
@@ -150,14 +160,14 @@ img {
 }
 
 .hearts {
-  width: 20px
+  width: 3em;
 }
 
 .brokenHearts {
-  width: 13px;
+  width: 1em;
   padding-bottom: 3px;
 }
-
+/*  MODAL   */
 #showChoice {
   min-width: 35vw;
   min-height: 65vh;
@@ -178,6 +188,22 @@ img {
   
 }
 
+.showEndGameContent {
+  width: 30vw;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.showEndGameBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content:left;
+}
+
 .modalContent {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -194,7 +220,7 @@ img {
   font-size: 2.5em;
   font-style: italic;
 }
-
+/*    MEDIA    */
 @media screen and (max-device-width: 480px) {
   .board {
     position: relative;
