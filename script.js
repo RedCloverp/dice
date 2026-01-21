@@ -1,3 +1,44 @@
+const diceSVGs = [
+    // 1
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="10" fill="#333"/>
+    </svg>`,
+    // 2
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="10" fill="#333"/>
+      <circle cx="75" cy="75" r="10" fill="#333"/>
+    </svg>`,
+    // 3
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="10" fill="#333"/>
+      <circle cx="50" cy="50" r="10" fill="#333"/>
+      <circle cx="75" cy="75" r="10" fill="#333"/>
+    </svg>`,
+    // 4
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="10" fill="#333"/>
+      <circle cx="75" cy="25" r="10" fill="#333"/>
+      <circle cx="25" cy="75" r="10" fill="#333"/>
+      <circle cx="75" cy="75" r="10" fill="#333"/>
+    </svg>`,
+    // 5
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="10" fill="#333"/>
+      <circle cx="75" cy="25" r="10" fill="#333"/>
+      <circle cx="25" cy="75" r="10" fill="#333"/>
+      <circle cx="75" cy="75" r="10" fill="#333"/>
+      <circle cx="50" cy="50" r="10" fill="#333"/>
+    </svg>`,
+    // 6
+    `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="25" cy="25" r="10" fill="#333"/>
+      <circle cx="75" cy="25" r="10" fill="#333"/>
+      <circle cx="25" cy="50" r="10" fill="#333"/>
+      <circle cx="75" cy="50" r="10" fill="#333"/>
+      <circle cx="25" cy="75" r="10" fill="#333"/>
+      <circle cx="75" cy="75" r="10" fill="#333"/>
+    </svg>`
+];
 // обьект с кубиками png
 const hubImg = {
     1: `<img src="./src/first.png" />`,
@@ -94,11 +135,13 @@ function movePlayerOne() {
   (setTimeout(() => {
     viewFirstCube.innerHTML = (hubImg[firstCube]);
     viewSecondCube.innerHTML = (hubImg[secondCube]);
+
     startPlayer.removeAttribute('disabled')
     move.textContent = "Ход Игрока 2";
     profilePlayer2.style.boxShadow = "5px 5px 50px red";
     profilePlayer1.style.boxShadow = "5px 5px 50px black";
   }, 1000))
+
   return playerCost;
 }
 function movePlayerTwo() {
@@ -213,17 +256,17 @@ choicePlayer.addEventListener('click', () => {
 })
 
 // старт с ботом
-startBot.addEventListener('click', () => {
-  movePlayer();
-  countMove.textContent = `Ваш счет: ${playerCost} - Бот: `;
+// startBot.addEventListener('click', () => {
+//   movePlayer();
+//   countMove.textContent = `Ваш счет: ${playerCost} - Бот: `;
 
-  (
-    setTimeout(() => {
-      moveBot();  
-      countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
-    },1500)
-  )
-})
+//   (
+//     setTimeout(() => {
+//       moveBot();  
+//       countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
+//     },1500)
+//   )
+// })
 // старт 2 игроков
 startPlayer.addEventListener('click', () => {
   
@@ -248,3 +291,51 @@ noPlay.addEventListener('click', () => {
   window.showChoice.show();
   
 })
+
+
+
+
+
+function rollDice() {
+    // Добавляем класс для анимации обоим кубикам
+    viewFirstCube.classList.add('rolling');
+    viewSecondCube.classList.add('rolling');
+    startBot.disabled = true; // Отключаем кнопку на время броска
+
+    // Имитация "броска" для обоих кубиков
+    let rollInterval = setInterval(() => {
+        const randomIndex1 = Math.floor(Math.random() * diceSVGs.length);
+        const randomIndex2 = Math.floor(Math.random() * diceSVGs.length);
+        viewFirstCube.innerHTML = diceSVGs[randomIndex1];
+        viewSecondCube.innerHTML = diceSVGs[randomIndex2];
+    }, 100);
+
+    // Останавливаем анимацию и показываем финальный результат через 2 секунды
+    setTimeout(() => {
+        clearInterval(rollInterval); // Останавливаем быструю смену цифр
+        
+        // Убираем анимацию тряски с обоих кубиков
+        viewFirstCube.classList.remove('rolling');
+        viewSecondCube.classList.remove('rolling');
+
+        // Генерируем финальные числа для каждого кубика
+        const finalNumber1 = Math.floor(Math.random() * 6) + 1;
+        const finalNumber2 = Math.floor(Math.random() * 6) + 1;
+        
+        // Обновляем SVG для каждого кубика
+        viewFirstCube.innerHTML = diceSVGs[finalNumber1 - 1];
+        viewSecondCube.innerHTML = diceSVGs[finalNumber2 - 1];
+        
+        startBot.disabled = false; // Включаем кнопку обратно
+    }, 2000);
+}
+
+startBot.addEventListener('click', rollDice);
+
+// Инициализация обоих кубиков при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const initialNumber1 = Math.floor(Math.random() * 6) + 1;
+    const initialNumber2 = Math.floor(Math.random() * 6) + 1;
+    viewFirstCube.innerHTML = diceSVGs[initialNumber1 - 1];
+    viewSecondCube.innerHTML = diceSVGs[initialNumber2 - 1];
+});
