@@ -51,6 +51,7 @@ const hubImg = {
 };
 
 let board = document.querySelector('.board'),
+    cubes = board.querySelectorAll('.dice'),
     viewFirstCube = document.querySelector('.firstCube'),
     viewSecondCube = document.querySelector('.secondCube'),
     viewFirstCubeBot = document.querySelector('.firstCubeBot'),
@@ -140,10 +141,10 @@ function moveBot(playerCost) {
       viewSecondCubeBot.innerHTML = diceSVGs[tempResult[1]];
       btn.disabled = false; // Включаем кнопку обратно
       move.textContent = "Ваш ход";
-      profilePlayer2.style.boxShadow = "5px 5px 50px red";
-      profilePlayer1.style.boxShadow = "5px 5px 50px black";
+      profilePlayer1.style.boxShadow = "5px 5px 50px red";
+      profilePlayer2.style.boxShadow = "5px 5px 50px black";
       botCost = tempResult[2];
-      hronic.innerHTML += `<p>Руанд ${countRound}: Ваш счет: ${playerCost} - Бот: ${botCost}</p>`;
+      hronic.innerHTML += `<p>Раунд ${countRound}: Ваш счет: ${playerCost} - Бот: ${botCost}</p>`;
       whoWinner(playerCost, botCost, true);
       resolve();
     }, 2000);
@@ -176,7 +177,6 @@ function movePlayerOne() {
     move.textContent = "Ход Игрока 2";
     profilePlayer2.style.boxShadow = "5px 5px 50px red";
     profilePlayer1.style.boxShadow = "5px 5px 50px black";
-    countMove.textContent = `Игрок 1: ${tempResult[2]} - Игрок 2: `;
     }, 2000);
   whoMove++;
   return tempResult[2];
@@ -207,8 +207,8 @@ function movePlayerTwo(costPlayerOne) {
     move.textContent = "Ход Игрока 1";
     profilePlayer1.style.boxShadow = "5px 5px 50px red";
     profilePlayer2.style.boxShadow = "5px 5px 50px black";
-    countMove.textContent = `Счет игрока 1: ${resultPlayer} - счет игрока 2: ${tempResult[2]} `;
-    console.log(resultPlayer, tempResult[2])
+    hronic.innerHTML += `<p>Раунд ${countRound}: Счет игрока 1: ${costPlayerOne} - Счет игрока 2: ${tempResult[2]}</p>`;
+    whoMove++;
     whoWinner(resultPlayer, tempResult[2], false);
   }, 2000);  
 }
@@ -274,24 +274,35 @@ function reset() {
   countBot = 2;
   countPlayer = 2;
   countRound = 1;
-  for(let i = 0; i < 3; i++ ) {
+  resultPlayer = 0,
+  whoMove = 1;
+  roundWinner.textContent = "";
+  for(let i = 0; i <= 2; i++) {
     heartsBot.children[i].setAttribute('src', './src/heart.svg')
     heartsPlayer.children[i].setAttribute('src', './src/heart.svg')
   }
-  countMove.textContent = "";
-  roundWinner.textContent = "";
-  viewFirstCube.children[0].remove();
-  viewSecondCube.children[0].remove();
-  viewFirstCubeBot.children[0].remove();
-  viewSecondCubeBot.children[0].remove();
-  playerOne.textContent = 'Игрок 1';
-  playerTwo.textContent = 'Игрок 2';
+  hronic.innerHTML = ``;
   window.showEndGame.close();
 }
+
+function rollDice(whoseCube, whoseCube2, btn) {
+    // Добавляем класс для анимации обоим кубикам
+    
+    return tempResult;
+}
+
+function renderPrevCubes() {
+  cubes.forEach((cube) => {
+    cube.innerHTML = diceSVGs[random(1, 6)];
+  })
+}
+
+// Обрабочтики событий
 // выбор режима игры
 choiceBot.addEventListener('click', () => {
   startBot.style.display = 'block';
   board.style.display = 'grid';
+  renderPrevCubes();
   window.showChoice.close();
   playerTwo.textContent = "Бот";
   profilePlayer1.style.boxShadow = "5px 5px 50px red";
@@ -303,6 +314,7 @@ choicePlayer.addEventListener('click', () => {
   window.showChoice.close();
   move.textContent = "Ход Игрока 1";
   profilePlayer1.style.boxShadow = "5px 5px 50px red";
+  renderPrevCubes();
 })
 
 // старт с ботом
@@ -323,30 +335,18 @@ startPlayer.addEventListener('click', () => {
 })
 
 // начать новую
-playAgain.addEventListener('click', reset)
+playAgain.addEventListener('click',() => {
+  reset();
+  renderPrevCubes();
+})
 // выйти
 noPlay.addEventListener('click', () => {
   reset();
+  renderPrevCubes();
   board.style.display = 'none';
   startBot.style.display = 'none';
   startPlayer.style.display = 'none';
   window.showChoice.show();
-  
 })
 
 
-function rollDice(whoseCube, whoseCube2, btn) {
-    // Добавляем класс для анимации обоим кубикам
-    
-    return tempResult;
-}
-
-// startBot.addEventListener('click', rollDice);
-
-// Инициализация кубиков при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    viewFirstCube.innerHTML = diceSVGs[random(1, 6)];
-    viewSecondCube.innerHTML = diceSVGs[random(1, 6)];
-    viewFirstCubeBot.innerHTML = diceSVGs[random(1, 6)];
-    viewSecondCubeBot.innerHTML = diceSVGs[random(1, 6)];
-});

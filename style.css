@@ -15,7 +15,7 @@ body, html {
   background-image: linear-gradient(to bottom, rgb(78, 139, 231), rgb(145, 231, 46));
 }
 .board {
-  background-color: beige;
+  background-color: rgba(0,0,0,0.1);
   width: 80vw;
   height: 95vh;
   box-sizing: border-box;
@@ -25,7 +25,7 @@ body, html {
   align-items: center;
   gap: 1vh;
   border-radius: 50px 0px;
-  box-shadow: 15px 25px 1px black ;
+  box-shadow: 5px 5px 10px black ;
   margin: 10px auto;
 }
 
@@ -85,7 +85,13 @@ h1, h2 {
   width: 50vw;
   height: 20vh;
   margin-bottom: 2%;
-  background-color: #0056b3;
+  border: 1px solid gray;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
 }
 
 #startBot:hover {
@@ -236,10 +242,17 @@ img {
   border: none;
   border-radius: 25px 0px;
   box-shadow: 5px -5px 120px;
-  
-  
 }
 
+#showChoice button {
+  background-color: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 1.5em;
+}
+
+#showEndGame {
+  background-color: rgba(0,0,0,0.7);
+}
 .showEndGameContent {
   width: 30vw;
   height: 30vh;
@@ -248,12 +261,50 @@ img {
   justify-content: center;
   align-items: center;
   margin: 0;
+  font-size: 2em;
+  opacity: 1;
+  color: #fff;
 }
 
 .showEndGameBtn {
   display: flex;
   flex-direction: row;
-  justify-content:left;
+  justify-content:center;
+  align-items: center;
+}
+.showEndGameBtn * {
+  width: 10vw;
+  height: 5vh;
+  width: 12vw;
+  height: 5vh;
+  margin: 10px;
+  background-color: rgba(0,0,0,0.1);
+  font-size: 1em;
+  color: #fff;
+  background-color: rgba(0,0,0,0.1);
+}
+.showEndGameBtn:hover {
+  transform: scale(0.9);
+}
+.showEndGameBtn :first-child:hover {
+  transform: scale(1.2);
+  box-shadow: 0px 0px 10px red;
+}
+.showEndGameBtn :last-child:hover  {
+  transform: scale(1.2);
+  box-shadow: 0px 0px 10px red;
+}
+
+.showEndGameBtn:active {
+  transform: scale(0.9);
+}
+.showEndGameBtn :first-child:active {
+  transform: scale(1.2);
+  box-shadow: 0px 0px 10px red;
+}
+.showEndGameBtn :last-child:active {
+  transform: scale(1.2);
+  box-shadow: 0px 0px 10px red;
 }
 
 .modalContent {
@@ -317,6 +368,15 @@ img {
     width: 20vw;
     height: 17%;
   }
+
+  .showEndGameContent {
+    width: 70vw;
+    font-size: 2.5em;
+  }
+  .showEndGameBtn * {
+  width: 20vw;
+  height: 5vh;
+}
 }
 
 
