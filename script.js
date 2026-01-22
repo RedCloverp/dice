@@ -1,4 +1,5 @@
 const diceSVGs = [
+    ``,
     // 1
     `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="10" fill="#333"/>
@@ -54,9 +55,8 @@ let board = document.querySelector('.board'),
     viewSecondCube = document.querySelector('.secondCube'),
     viewFirstCubeBot = document.querySelector('.firstCubeBot'),
     viewSecondCubeBot = document.querySelector('.secondCubeBot'),
-    roundWinner = document.querySelector('#roundWinner'),
     move = document.querySelector('#move'),
-    countMove = document.querySelector('#countMove'),
+    hronic = document.querySelector('.hronicle'),
     heartsPlayer = document.querySelector('.heartsPlayer'),
     heartsBot = document.querySelector('.heartsBot'),
     btn = document.querySelector('button'),
@@ -74,7 +74,8 @@ let board = document.querySelector('.board'),
     countPlayer = 2,
     countBot = 2,
     countRound = 1,
-    whoMove = 1;
+    whoMove = 1,
+    resultPlayer = 0;
   // инициализация переменных для привязки к резульату рандома
 let firstCube, secondCube, playerCost, botCost;
   
@@ -82,90 +83,134 @@ let firstCube, secondCube, playerCost, botCost;
 
 // функции ходов с ботом
 function movePlayer() {
-  btn.setAttribute('disabled', 'disabled');
-  if (viewFirstCube.children.length > 0 && viewSecondCube.children.length > 0) {
-    viewFirstCube.children[0].remove();
-    viewSecondCube.children[0].remove();
-  };
-  if (viewFirstCubeBot.children.length > 0 && viewSecondCubeBot.children.length > 0) {
-    viewFirstCubeBot.children[0].remove();
-    viewSecondCubeBot.children[0].remove();
-  };
-  random(1, 6);
-  viewFirstCube.innerHTML = (hubImg[firstCube]);
-  viewSecondCube.innerHTML = (hubImg[secondCube]);
-  playerCost = firstCube + secondCube;
-  move.textContent = "Ход Бота";
-  profilePlayer2.style.boxShadow = "5px 5px 50px red";
-    profilePlayer1.style.boxShadow = "5px 5px 50px black";
-  return playerCost;
+  return new Promise((resolve) => {
+    viewFirstCube.classList.add('rolling');
+    viewSecondCube.classList.add('rolling');
+    startBot.disabled = true; // Отключаем кнопку на время броска
+
+    // Имитация "броска" для обоих кубиков
+    let rollInterval = setInterval(() => {
+      random(1, 6);
+      viewFirstCube.innerHTML = diceSVGs[firstCube];
+      viewSecondCube.innerHTML = diceSVGs[secondCube];
+    }, 100);
+
+    let tempResult = random(1, 6, true);
+    // Останавливаем анимацию и показываем финальный результат через 2 секунды
+    setTimeout(() => {
+      clearInterval(rollInterval); // Останавливаем быструю смену цифр
+      // Убираем анимацию тряски с обоих кубиков
+      viewFirstCube.classList.remove('rolling');
+      viewSecondCube.classList.remove('rolling');
+      // Обновляем SVG для каждого кубика
+      viewFirstCube.innerHTML = diceSVGs[tempResult[0]];
+      viewSecondCube.innerHTML = diceSVGs[tempResult[1]];
+      btn.disabled = false; // Включаем кнопку обратно
+      move.textContent = "Ход Бота";
+      profilePlayer2.style.boxShadow = "5px 5px 50px red";
+      profilePlayer1.style.boxShadow = "5px 5px 50px black";
+      // countMove.textContent = `Ваш счет: ${tempResult[2]} - Бот: `;
+      resolve(tempResult[2]);
+    }, 2000);
+  });
 }
 
-function moveBot() {
-  if (viewFirstCubeBot.children.length > 0 && viewSecondCubeBot.children.length > 0) {
-    viewFirstCubeBot.children[0].remove();
-    viewSecondCubeBot.children[0].remove();
-  };
-  random(1, 6);
-  botCost = firstCube + secondCube;
-  btn.removeAttribute('disabled');
-  viewFirstCubeBot.innerHTML = (hubImg[firstCube]);
-  viewSecondCubeBot.innerHTML = (hubImg[secondCube]);
-  move.textContent = "Ваш ход";
-  console.log("Ход бота с ботом");
-  whoWinner(playerCost, botCost, true);
-  profilePlayer1.style.boxShadow = "5px 5px 50px red";
-  profilePlayer2.style.boxShadow = "5px 5px 50px black";
-  return botCost;
+function moveBot(playerCost) {
+  return new Promise((resolve) => {
+    viewFirstCubeBot.classList.add('rolling');
+    viewSecondCubeBot.classList.add('rolling');
+    startBot.disabled = true; // Отключаем кнопку на время броска
+
+    // Имитация "броска" для обоих кубиков
+    let rollInterval = setInterval(() => {
+      random(1, 6);
+      viewFirstCubeBot.innerHTML = diceSVGs[firstCube];
+      viewSecondCubeBot.innerHTML = diceSVGs[secondCube];
+    }, 100);
+
+    let tempResult = random(1, 6, true);
+    // Останавливаем анимацию и показываем финальный результат через 2 секунды
+    setTimeout(() => {
+      clearInterval(rollInterval); // Останавливаем быструю смену цифр
+      // Убираем анимацию тряски с обоих кубиков
+      viewFirstCubeBot.classList.remove('rolling');
+      viewSecondCubeBot.classList.remove('rolling');
+      // Обновляем SVG для каждого кубика
+      viewFirstCubeBot.innerHTML = diceSVGs[tempResult[0]];
+      viewSecondCubeBot.innerHTML = diceSVGs[tempResult[1]];
+      btn.disabled = false; // Включаем кнопку обратно
+      move.textContent = "Ваш ход";
+      profilePlayer2.style.boxShadow = "5px 5px 50px red";
+      profilePlayer1.style.boxShadow = "5px 5px 50px black";
+      botCost = tempResult[2];
+      hronic.innerHTML += `<p>Руанд ${countRound}: Ваш счет: ${playerCost} - Бот: ${botCost}</p>`;
+      whoWinner(playerCost, botCost, true);
+      resolve();
+    }, 2000);
+  });
 }
 // Функции ходов с человеком
 function movePlayerOne() {
-  startPlayer.setAttribute('disabled', 'disabled');
-  if (viewFirstCube.children.length > 0 && viewSecondCube.children.length > 0) {
-    viewFirstCube.children[0].remove();
-    viewSecondCube.children[0].remove();
-  };
-  if (viewFirstCubeBot.children.length > 0 && viewSecondCubeBot.children.length > 0) {
-    viewFirstCubeBot.children[0].remove();
-    viewSecondCubeBot.children[0].remove();
-  };
-  random(1, 6);
-  playerCost = firstCube + secondCube;
-  whoMove++;
-  (setTimeout(() => {
-    viewFirstCube.innerHTML = (hubImg[firstCube]);
-    viewSecondCube.innerHTML = (hubImg[secondCube]);
+  viewFirstCube.classList.add('rolling');
+  viewSecondCube.classList.add('rolling');
+  startBot.disabled = true; // Отключаем кнопку на время броска
 
-    startPlayer.removeAttribute('disabled')
+    // Имитация "броска" для обоих кубиков
+  let rollInterval = setInterval(() => {
+    random(1, 6);
+    viewFirstCube.innerHTML = diceSVGs[firstCube];
+    viewSecondCube.innerHTML = diceSVGs[secondCube];
+  }, 100);
+
+  let tempResult = random(1, 6, true);
+    // Останавливаем анимацию и показываем финальный результат через 2 секунды
+  setTimeout(() => {
+    clearInterval(rollInterval); // Останавливаем быструю смену цифр
+      // Убираем анимацию тряски с обоих кубиков
+    viewFirstCube.classList.remove('rolling');
+    viewSecondCube.classList.remove('rolling');
+      // Обновляем SVG для каждого кубика
+    viewFirstCube.innerHTML = diceSVGs[tempResult[0]];
+    viewSecondCube.innerHTML = diceSVGs[tempResult[1]];
+    btn.disabled = false; // Включаем кнопку обратно
     move.textContent = "Ход Игрока 2";
     profilePlayer2.style.boxShadow = "5px 5px 50px red";
     profilePlayer1.style.boxShadow = "5px 5px 50px black";
-  }, 1000))
-
-  return playerCost;
-}
-function movePlayerTwo() {
-  startPlayer.setAttribute('disabled', 'disabled');
-  if (viewFirstCubeBot.children.length > 0 && viewSecondCubeBot.children.length > 0) {
-    viewFirstCubeBot.children[0].remove();
-    viewSecondCubeBot.children[0].remove();
-  };
-  random(1, 6);
- 
-  btn.removeAttribute('disabled');
-  botCost = firstCube + secondCube;
+    countMove.textContent = `Игрок 1: ${tempResult[2]} - Игрок 2: `;
+    }, 2000);
   whoMove++;
-  (setTimeout(() => {
+  return tempResult[2];
+}
+function movePlayerTwo(costPlayerOne) {
+  viewFirstCubeBot.classList.add('rolling');
+  viewSecondCubeBot.classList.add('rolling');
+  startPlayer.disabled = true; // Отключаем кнопку на время броска
+
+    // Имитация "броска" для обоих кубиков
+  let rollInterval = setInterval(() => {
+    random(1, 6);
+    viewFirstCubeBot.innerHTML = diceSVGs[firstCube];
+    viewSecondCubeBot.innerHTML = diceSVGs[secondCube];
+  }, 100);
+
+  let tempResult = random(1, 6, true);
+    // Останавливаем анимацию и показываем финальный результат через 2 секунды
+  setTimeout(() => {
+    clearInterval(rollInterval); // Останавливаем быструю смену цифр
+      // Убираем анимацию тряски с обоих кубиков
+    viewFirstCubeBot.classList.remove('rolling');
+    viewSecondCubeBot.classList.remove('rolling');
+      // Обновляем SVG для каждого кубика
+    viewFirstCubeBot.innerHTML = diceSVGs[tempResult[0]];
+    viewSecondCubeBot.innerHTML = diceSVGs[tempResult[1]];
+    startPlayer.disabled = false; // Включаем кнопку обратно
     move.textContent = "Ход Игрока 1";
-    viewFirstCubeBot.innerHTML = (hubImg[firstCube]);
-    viewSecondCubeBot.innerHTML = (hubImg[secondCube]);
-    countMove.textContent = `Игрок 1: ${playerCost} - Игрок 2: ${botCost}`;
     profilePlayer1.style.boxShadow = "5px 5px 50px red";
     profilePlayer2.style.boxShadow = "5px 5px 50px black";
-    startPlayer.removeAttribute('disabled');
-    whoWinner(playerCost, botCost, false);
-  },1000))
-  return botCost;
+    countMove.textContent = `Счет игрока 1: ${resultPlayer} - счет игрока 2: ${tempResult[2]} `;
+    console.log(resultPlayer, tempResult[2])
+    whoWinner(resultPlayer, tempResult[2], false);
+  }, 2000);  
 }
 
 function whoWinner(player, bot, playing) {
@@ -214,10 +259,15 @@ function endGame(playerWinner) {
 
 }
   // Генерация рандома
-function random(min, max) {
+function random(min, max, result) {
   firstCube = Math.floor(Math.random() * (max - min + 1)) + min;
   secondCube = Math.floor(Math.random() * (max - min + 1)) + min;
-  return firstCube, secondCube;
+  if (result) {
+    return [firstCube, secondCube, firstCube + secondCube];
+  } else {
+    return firstCube, secondCube;
+  }
+  
 }
 
 function reset() {
@@ -256,26 +306,18 @@ choicePlayer.addEventListener('click', () => {
 })
 
 // старт с ботом
-// startBot.addEventListener('click', () => {
-//   movePlayer();
-//   countMove.textContent = `Ваш счет: ${playerCost} - Бот: `;
-
-//   (
-//     setTimeout(() => {
-//       moveBot();  
-//       countMove.textContent = `Ваш счет: ${playerCost} - Бот: ${botCost}`;
-//     },1500)
-//   )
-// })
+startBot.addEventListener('click', async () => {
+  const playerSum = await movePlayer();
+  
+  await moveBot(playerSum);
+})
 // старт 2 игроков
 startPlayer.addEventListener('click', () => {
-  
   if (whoMove % 2 == 1) {
-    movePlayerOne();
-    countMove.textContent = `Игрок 1: ${playerCost} - Игрок 2: `;
+    resultPlayer = movePlayerOne();
+    console.log(resultPlayer)
   } else {
-    movePlayerTwo();
-    
+    movePlayerTwo(resultPlayer);
   }
   
 })
@@ -293,49 +335,18 @@ noPlay.addEventListener('click', () => {
 })
 
 
-
-
-
-function rollDice() {
+function rollDice(whoseCube, whoseCube2, btn) {
     // Добавляем класс для анимации обоим кубикам
-    viewFirstCube.classList.add('rolling');
-    viewSecondCube.classList.add('rolling');
-    startBot.disabled = true; // Отключаем кнопку на время броска
-
-    // Имитация "броска" для обоих кубиков
-    let rollInterval = setInterval(() => {
-        const randomIndex1 = Math.floor(Math.random() * diceSVGs.length);
-        const randomIndex2 = Math.floor(Math.random() * diceSVGs.length);
-        viewFirstCube.innerHTML = diceSVGs[randomIndex1];
-        viewSecondCube.innerHTML = diceSVGs[randomIndex2];
-    }, 100);
-
-    // Останавливаем анимацию и показываем финальный результат через 2 секунды
-    setTimeout(() => {
-        clearInterval(rollInterval); // Останавливаем быструю смену цифр
-        
-        // Убираем анимацию тряски с обоих кубиков
-        viewFirstCube.classList.remove('rolling');
-        viewSecondCube.classList.remove('rolling');
-
-        // Генерируем финальные числа для каждого кубика
-        const finalNumber1 = Math.floor(Math.random() * 6) + 1;
-        const finalNumber2 = Math.floor(Math.random() * 6) + 1;
-        
-        // Обновляем SVG для каждого кубика
-        viewFirstCube.innerHTML = diceSVGs[finalNumber1 - 1];
-        viewSecondCube.innerHTML = diceSVGs[finalNumber2 - 1];
-        
-        startBot.disabled = false; // Включаем кнопку обратно
-    }, 2000);
+    
+    return tempResult;
 }
 
-startBot.addEventListener('click', rollDice);
+// startBot.addEventListener('click', rollDice);
 
-// Инициализация обоих кубиков при загрузке страницы
+// Инициализация кубиков при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-    const initialNumber1 = Math.floor(Math.random() * 6) + 1;
-    const initialNumber2 = Math.floor(Math.random() * 6) + 1;
-    viewFirstCube.innerHTML = diceSVGs[initialNumber1 - 1];
-    viewSecondCube.innerHTML = diceSVGs[initialNumber2 - 1];
+    viewFirstCube.innerHTML = diceSVGs[random(1, 6)];
+    viewSecondCube.innerHTML = diceSVGs[random(1, 6)];
+    viewFirstCubeBot.innerHTML = diceSVGs[random(1, 6)];
+    viewSecondCubeBot.innerHTML = diceSVGs[random(1, 6)];
 });

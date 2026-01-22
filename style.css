@@ -2,30 +2,31 @@
   box-sizing: border-box;
 }
 
-body {
+body, html {
   width: 100vw;
   height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 10px;
   display: flex;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
-  background-image: linear-gradient(to right, rgb(78, 139, 231), rgb(145, 231, 46));
+  background-image: linear-gradient(to bottom, rgb(78, 139, 231), rgb(145, 231, 46));
 }
 .board {
   background-color: beige;
-  width: 85vw;
-  height: 85vh;
+  width: 80vw;
+  height: 95vh;
   box-sizing: border-box;
   display: none;
-  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-columns: 3fr 4fr 3fr;
   justify-items: center;
   align-items: center;
-  gap: 10px;
+  gap: 1vh;
   border-radius: 50px 0px;
   box-shadow: 15px 25px 1px black ;
-  margin-top: 2%;
-  padding: 0;;
+  margin: 10px auto;
 }
 
 h1, h2 {
@@ -46,29 +47,22 @@ h1, h2 {
 
 .result {
   box-sizing: content-box;
-  margin-top: 5%;
+  margin-top: 2%;
   box-shadow: 5px 5px 27px;
-  width: 80%;
-  height: 15vh;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 35px;
+  margin-top: 3%;
+  width: 20vw;
 }
 
 .result * {
   margin: 5px;
 }
 
-#countMove {
-  font-size: 2rem;
-
-}
-
-#roundWinner {
-  font-size: 2rem;
-}
 
 .btn {
   display: flex;
@@ -85,6 +79,13 @@ h1, h2 {
   display: none;
   margin-bottom: 5%;
   transition: background-color 0.2s ease;
+}
+
+.hronicle {
+  width: 50vw;
+  height: 20vh;
+  margin-bottom: 2%;
+  background-color: #0056b3;
 }
 
 #startBot:hover {
@@ -109,20 +110,20 @@ h1, h2 {
 
 
 .player {
-  width: 100%;
-  height: 50%;
+  width: 90%;
+  height: 35%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 15%;
+  margin-left: 10%;
   box-shadow: 5px 5px 50px black;
   border-radius: 10px;
 } 
 .computer {
-  width: 100%;
-  height: 50%;
-  margin-right: 15%;
+  width: 90%;
+  height: 35%;
+  margin-right: 10%;
   box-shadow: 5px 5px 25px;
   display: flex;
   flex-direction: column;
@@ -274,9 +275,12 @@ img {
 /*    MEDIA    */
 @media screen and (max-device-width: 480px) {
   .board {
-    
-    position: relative;
-    top: 15%;
+    display: none;
+    justify-content: space-between;
+    width: 95vw;
+    height: 70vh;
+    /* position: relative;
+    top: 15%; */
   }
   .modalContent {
     width: 80vw;
@@ -299,19 +303,18 @@ img {
     min-width: 55vw;
     min-height: 30vh;
   }
-  .result {
-    margin-top: 25%;
-    width: 40vw;
+  .btnAndCube {
+    justify-content: space-between;
   }
   .btn button {
     margin-bottom: 25%;
   }
   .player {
-    width: 21vw;
+    width: 20vw;
     height: 17%;
   }
   .computer {
-    width: 21vw;
+    width: 20vw;
     height: 17%;
   }
 }
