@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  
 }
 
 body, html {
@@ -46,6 +47,7 @@ h1, h2 {
 
 
 .result {
+  width: 35vw;
   box-sizing: content-box;
   margin-top: 2%;
   box-shadow: 5px 5px 27px;
@@ -125,6 +127,7 @@ h1, h2 {
   margin-left: 10%;
   box-shadow: 5px 5px 50px black;
   border-radius: 10px;
+  transition: transform 1s ease-in-out;
 } 
 .computer {
   width: 90%;
@@ -136,6 +139,7 @@ h1, h2 {
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  transition: transform 1s ease-in-out;
 } 
 img {
     width: 100px;
@@ -353,6 +357,10 @@ img {
   #showChoice {
     min-width: 55vw;
     min-height: 30vh;
+  }
+
+  .result {
+    width: 50vw;
   }
   .btnAndCube {
     justify-content: space-between;
